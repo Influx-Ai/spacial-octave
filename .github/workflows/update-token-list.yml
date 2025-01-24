@@ -1,0 +1,29 @@
+name: Update Token List
+
+on:
+ push: # TODO: Remove later
+ schedule:
+   - cron: "0 0 * * *" # every day at midnight
+
+jobs:
+  update-token-list:
+    name: update-token-list
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+
+      - name: Install deps
+        run: npm install
+
+      - name: Run the script
+        env:
+          UPSTREAM_API_KEY: ${{ secrets.UPSTREAM_API_KEY }}
+          UPSTREAM_TOKEN_LIST_API_URL: ${{ secrets.UPSTREAM_TOKEN_LIST_API_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          CA_CERT: ${{ secrets.CA_CERT }}
+          PG_TOKENS_TABLE_NAME: ${{ secrets.PG_TOKENS_TABLE_NAME }}
+        run: npm run update_token_list
