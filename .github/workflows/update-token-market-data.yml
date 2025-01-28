@@ -1,7 +1,6 @@
 name: Update Token Market Data
 
 on:
- push: # TODO: Remove later
  schedule:
    - cron: "0 */1 * * *" # every one hour
 

@@ -42,7 +42,7 @@ async function getTokensWithMarketData(
       const firstTwoIDs = batchIDs.slice(0, 2);
       const lastTwoIDs = batchIDs.slice(-2);
       console.log(
-        `Fetching tokens market data with IDs: ${firstTwoIDs},...,${lastTwoIDs}`
+        `Fetching tokens market data with IDs ::: ${firstTwoIDs},...,${lastTwoIDs}`
       );
 
       // Fetch 630 or less (rate limited) tokens with market data
@@ -163,22 +163,17 @@ async function updateDBInBatches(formattedTokens: IToken[]): Promise<number> {
   // Spread array to lose reference to the original array
   const tokens = [...formattedTokens];
 
+  // Keep track of the number of successful update transactions
   let updatedTokenCount = 0;
 
   while (tokens.length) {
     const tokenBatch = tokens.splice(0, NUMBER_OF_CONCURRENT_DB_UPDATES);
-    const firstTwoTokens = tokenBatch
-      .slice(0, 2)
-      .map((i) => i.coingeckoId)
-      .join(', ');
-    const lastTwoTokens = tokenBatch
-      .slice(-2)
-      .map((i) => i.coingeckoId)
-      .join(', ');
+    const firstTwoTokens = tokenBatch.slice(0, 2).map((i) => i.coingeckoId);
+    const lastTwoTokens = tokenBatch.slice(-2).map((i) => i.coingeckoId);
     const log = `${firstTwoTokens},...,${lastTwoTokens}`;
 
     try {
-      console.log('Updating :::', log);
+      console.log(`Updating ::: ${log}`);
       const tokenBatchPromise = tokenBatch.map(async (token) => {
         try {
           await db
@@ -187,6 +182,7 @@ async function updateDBInBatches(formattedTokens: IToken[]): Promise<number> {
             .where(eq(tokensTable.coingeckoId, token.coingeckoId));
           updatedTokenCount++;
         } catch (error) {
+          // If one transaction fails, log the error and continue with the next token
           console.error(
             `Failed to update token: ${token.coingeckoId} :::`,
             error
@@ -200,6 +196,7 @@ async function updateDBInBatches(formattedTokens: IToken[]): Promise<number> {
     }
   }
 
+  // Return the number of successful update transactions
   return updatedTokenCount;
 }
 
