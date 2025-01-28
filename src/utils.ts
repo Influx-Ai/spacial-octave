@@ -11,13 +11,17 @@ export async function runScript(
 
   try {
     console.log('Running script...');
+    console.log('\n====================================\n');
+
     await runnableScript();
 
-    console.log(`Done in: ${(Date.now() - startTime) / 1000} seconds`);
+    console.log('\n====================================\n');
+    console.log(`✅Done in: ${(Date.now() - startTime) / 1000} seconds`);
     console.log('Exiting successfully.');
     process.exit(0);
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.log('\n====================================\n');
+    console.error('❌Run Script Error:\n', error);
 
     console.log(`Ran for: ${(Date.now() - startTime) / 1000} seconds`);
     process.exit(1);

@@ -1,12 +1,13 @@
-name: Update Token List
+name: Update Token Market Data
 
 on:
+ push: # TODO: Remove later
  schedule:
-   - cron: "0 0 * * *" # every day at midnight
+   - cron: "0 */1 * * *" # every one hour
 
 jobs:
-  update-token-list:
-    name: update-token-list
+  update-tokens-market-data:
+    name: update-tokens-market-data
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,5 +25,5 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           PG_TOKENS_TABLE_NAME: ${{ secrets.PG_TOKENS_TABLE_NAME }}
           UPSTREAM_API_KEY: ${{ secrets.UPSTREAM_API_KEY }}
-          UPSTREAM_TOKEN_LIST_API_URL: ${{ secrets.UPSTREAM_TOKEN_LIST_API_URL }}
-        run: npm run update_token_list
+          UPSTREAM_TOKEN_LIST_WITH_MARKET_DATA_API_URL: ${{ secrets.UPSTREAM_TOKEN_LIST_WITH_MARKET_DATA_API_URL }}
+        run: npm run update_tokens_market_data

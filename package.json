@@ -15,7 +15,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "update_token_list": "tsx scripts/updateTokenList.ts"
+    "update_token_list": "tsx scripts/updateTokenList.ts",
+    "update_tokens_market_data": "tsx scripts/updateTokensMarketData.ts"
   },
   "author": "",
   "license": "ISC"
