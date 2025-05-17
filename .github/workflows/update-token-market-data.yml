@@ -1,8 +1,9 @@
 name: Update Token Market Data
 
 on:
- schedule:
-   - cron: "0 */1 * * *" # every one hour
+  push:
+    branches:
+      - main
 
 jobs:
   update-tokens-market-data:

@@ -1,8 +1,9 @@
 name: Update Token List
 
 on:
- schedule:
-   - cron: "0 0 * * *" # every day at midnight
+  push:
+    branches:
+      - main
 
 jobs:
   update-token-list:
